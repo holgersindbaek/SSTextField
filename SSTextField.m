@@ -7,7 +7,6 @@
 //
 
 #import "SSTextField.h"
-#import "SSDrawingUtilities.h"
 
 @interface SSTextField ()
 - (void)_initialize;
