@@ -17,7 +17,6 @@
 #pragma mark - Accessors
 
 @synthesize textEdgeInsets = _textEdgeInsets;
-@synthesize clearButtonEdgeInsets = _clearButtonEdgeInsets;
 @synthesize placeholderTextColor = _placeholderTextColor;
 
 - (void)setPlaceholderTextColor:(UIColor *)placeholderTextColor {
@@ -58,20 +57,12 @@
 	return [self textRectForBounds:bounds];
 }
 
-
-- (CGRect)clearButtonRectForBounds:(CGRect)bounds {
-	CGRect rect = [super clearButtonRectForBounds:bounds];
-	rect = CGRectSetY(rect, rect.origin.y + _clearButtonEdgeInsets.top);
-	return CGRectSetX(rect, rect.origin.x + _clearButtonEdgeInsets.right);
-}
-
-
 - (void)drawPlaceholderInRect:(CGRect)rect {
-	if (!_placeholderTextColor) {
-		[super drawPlaceholderInRect:rect];
-		return;
-	}
-	
+  if (!_placeholderTextColor) {
+    [super drawPlaceholderInRect:rect];
+    return;
+  }
+  
     [_placeholderTextColor setFill];
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
     [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail alignment:self.textAlignment];
@@ -79,13 +70,23 @@
     [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
 #endif
 }
+                      
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    [self updateTextLabelsWithText: @"test"];
+
+    return YES;
+}
+
+-(void)updateTextLabelsWithText:(NSString *)string{
+    [self setText:string];
+}
 
 
 #pragma mark - Private
 
 - (void)_initialize {
-	_textEdgeInsets = UIEdgeInsetsZero;
-	_clearButtonEdgeInsets = UIEdgeInsetsZero;
+	_textEdgeInsets = UIEdgeInsetsMake(10.0, 7.0, 10.0, 10.0);;
 }
 
 @end

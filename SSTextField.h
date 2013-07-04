@@ -52,6 +52,5 @@
  
  The default value is `UIEdgeInsetsZero`.
  */
-@property (nonatomic, assign) UIEdgeInsets clearButtonEdgeInsets;
 
 @end
