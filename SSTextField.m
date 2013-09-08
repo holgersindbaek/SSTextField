@@ -20,8 +20,7 @@
 @synthesize placeholderTextColor = _placeholderTextColor;
 
 - (void)setPlaceholderTextColor:(UIColor *)placeholderTextColor {
-	_placeholderTextColor = placeholderTextColor;
-	
+	_placeholderTextColor = placeholderTextColor;    
 	if (!self.text && self.placeholder) {
 		[self setNeedsDisplay];
 	}
@@ -58,6 +57,11 @@
 }
 
 - (void)drawPlaceholderInRect:(CGRect)rect {
+//    Hack for iOS 7
+    if ([[UIDevice currentDevice].systemVersion hasPrefix:@"7"]) {
+        rect.origin.y += 12;
+    }
+
   if (!_placeholderTextColor) {
     [super drawPlaceholderInRect:rect];
     return;
@@ -70,17 +74,7 @@
     [self.placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
 #endif
 }
-                      
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    [self updateTextLabelsWithText: @"test"];
 
-    return YES;
-}
-
--(void)updateTextLabelsWithText:(NSString *)string{
-    [self setText:string];
-}
 
 
 #pragma mark - Private
